@@ -1,0 +1,1410 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dos Gatos y una Persona</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;600&display=swap");
+    :root {
+      --bg-deep: #07140b;
+      --bg-mid: #0f2a18;
+      --ink: #e9fff1;
+      --paper: #0f2a18;
+      --accent: #62e890;
+      --mint: #9fe8b6;
+      --sun: #f25757;
+      --shadow: #00000066;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(0deg, rgba(6,20,12,0.35), rgba(6,20,12,0.35)),
+        url("yaraaaaa.jpg") center/cover no-repeat;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    body::before, body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      border-radius: 999px;
+      filter: blur(10px);
+      opacity: 0.55;
+      pointer-events: none;
+      animation: float 14s ease-in-out infinite;
+    }
+    body::before {
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle at 30% 30%, #9fe8b6 0%, #62e890 55%, transparent 70%);
+      top: -120px;
+      left: -80px;
+    }
+    body::after {
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle at 60% 50%, #ff8b8b 0%, #f25757 55%, transparent 70%);
+      right: -140px;
+      bottom: -160px;
+      animation-delay: -6s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(12px) translateX(8px); }
+    }
+    .shell {
+      width: min(1080px, 94vw);
+      background: linear-gradient(180deg, #102019 0%, #0b1912 100%);
+      border: 2px solid #2e5a38;
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 30px 80px var(--shadow), 0 0 0 1px #2e5a38 inset;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+      position: relative;
+    }
+    .page-title {
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      position: relative;
+      text-align: center;
+      user-select: none;
+    }
+    .page-title h1 {
+      font-family: "Press Start 2P", "Space Grotesk", sans-serif;
+      font-size: clamp(20px, 3.2vw, 34px);
+      letter-spacing: 1.4px;
+      color: #9fe8b6;
+      text-shadow:
+        0 0 10px rgba(98, 232, 144, 0.6),
+        0 0 30px rgba(242, 87, 87, 0.45);
+      margin: 0;
+      animation: floatTitle 3.5s ease-in-out infinite;
+    }
+    .page-title .glow {
+      position: absolute;
+      width: min(420px, 80vw);
+      height: 28px;
+      background: radial-gradient(circle, rgba(98, 232, 144, 0.35) 0%, transparent 70%);
+      filter: blur(2px);
+      top: 50%;
+      transform: translateY(24px);
+      pointer-events: none;
+    }
+    @keyframes floatTitle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: 18px;
+      border: 1px dashed #2e5a38;
+      pointer-events: none;
+    }
+    .panel {
+      background: linear-gradient(180deg, #14261b 0%, #0f2016 100%);
+      border: 2px solid #2e5a38;
+      border-radius: 18px;
+      padding: 18px 16px 16px;
+      display: grid;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px #1f3f28;
+    }
+    .panel::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -80px;
+      bottom: -80px;
+      background: radial-gradient(circle, #62e89040 0%, transparent 70%);
+      opacity: 0.8;
+    }
+    .panel::before {
+      content: "GAME MODE";
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 10px;
+      letter-spacing: 1.6px;
+      color: #a9f5c4;
+    }
+    .panel-top {
+      display: grid;
+      gap: 6px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #2e5a38;
+    }
+    .title {
+      font-family: "Press Start 2P", "Space Grotesk", sans-serif;
+      font-size: 18px;
+      line-height: 1.1;
+      letter-spacing: 0.6px;
+    }
+    .sub {
+      font-size: 14px;
+      opacity: 0.9;
+      color: #c6f1d7;
+    }
+    .hud {
+      display: grid;
+      gap: 10px;
+      font-size: 14px;
+    }
+    .pill {
+      padding: 10px 12px;
+      border: 1px solid #2e5a38;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #0f2016 0%, #0b1a12 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 18px #00000040;
+    }
+    .pill strong { font-weight: 700; font-size: 16px; color: var(--accent); }
+    .stat {
+      display: grid;
+      gap: 8px;
+    }
+    .bar {
+      height: 8px;
+      border-radius: 999px;
+      background: #0b1a12;
+      border: 1px solid #2e5a38;
+      overflow: hidden;
+    }
+    .bar span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, #62e890, #9fe8b6);
+      width: 0%;
+      transition: width 120ms linear;
+    }
+    .bar.bad span {
+      background: linear-gradient(90deg, #f25757, #ff8b8b);
+    }
+    .cat-bars {
+      display: grid;
+      gap: 10px;
+    }
+    .cat-bar {
+      display: grid;
+      gap: 6px;
+      font-size: 12px;
+      color: #cfeedd;
+    }
+    .cta {
+      background: linear-gradient(120deg, #62e890, #9fe8b6);
+      color: #03121b;
+      border: none;
+      padding: 12px 12px;
+      border-radius: 14px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.3px;
+      box-shadow: 0 10px 20px #62e89033;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::after {
+      content: "";
+      position: absolute;
+      inset: -40% 60% 0 -60%;
+      background: linear-gradient(120deg, transparent, #f2575766, transparent);
+      transform: translateX(-60%);
+      animation: shine 4s ease-in-out infinite;
+    }
+    .btns {
+      display: grid;
+      gap: 8px;
+    }
+    .btn.primary {
+      background: linear-gradient(120deg, #f25757, #ff8b8b);
+      color: #1b0a0a;
+      border-color: #6a2020;
+    }
+    .btn {
+      border: 1px solid #2e5a38;
+      background: #0f2016;
+      color: #e9fff1;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease;
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 16px #00000040;
+    }
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+    canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 18px;
+      background: #f7efe3;
+      border: 3px solid #00000010;
+      box-shadow: inset 0 0 0 2px #ffffffaa;
+    }
+    .legend {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      opacity: 0.95;
+      background: #0f2016;
+      border-radius: 12px;
+      padding: 10px 12px;
+      border: 1px solid #2e5a38;
+    }
+    kbd {
+      font-family: inherit;
+      border: 1px solid #2e5a38;
+      border-bottom-width: 2px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #0b1a12;
+      color: #a9f5c4;
+      font-weight: 600;
+    }
+    .canvas-wrap {
+      background: #0b1a12;
+      border-radius: 20px;
+      padding: 12px;
+      border: 2px solid #2e5a38;
+      display: grid;
+      gap: 10px;
+      position: relative;
+    }
+    .footer-note {
+      font-size: 12px;
+      opacity: 0.7;
+      display: flex;
+      justify-content: space-between;
+    }
+    .badge {
+      background: #0b1a12;
+      color: #a9f5c4;
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 11px;
+      letter-spacing: 0.3px;
+    }
+    .canvas-wrap::before {
+      content: "";
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #62e890, #9fe8b6, #f25757);
+    }
+    .start-screen {
+      position: fixed;
+      inset: 0;
+      border-radius: 0;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(800px 500px at 50% 30%, #163625 0%, #0a140d 70%);
+      backdrop-filter: none;
+      z-index: 5;
+      animation: startFade 500ms ease-out;
+    }
+    .start-screen::before {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border-radius: 20px;
+      border: 1px solid #2e5a38;
+      box-shadow: 0 0 20px #62e89033 inset;
+      pointer-events: none;
+    }
+    .start-card {
+      background: #0f2016;
+      border: 2px solid #2e5a38;
+      border-radius: 16px;
+      padding: 20px 22px;
+      text-align: center;
+      max-width: 360px;
+      box-shadow: 0 20px 40px #00000055;
+      position: relative;
+      overflow: hidden;
+      animation: startPop 600ms ease-out;
+    }
+    .start-card::before {
+      content: "";
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(circle at 30% 20%, #62e89033 0%, transparent 40%),
+                  radial-gradient(circle at 70% 80%, #f2575733 0%, transparent 45%);
+      opacity: 0.8;
+      pointer-events: none;
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+    .start-card::after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 10px;
+      height: 10px;
+      background: #f25757;
+      border-radius: 2px;
+      box-shadow: -16px 12px 0 #62e890, -32px 22px 0 #9fe8b6;
+      transform: rotate(20deg);
+      opacity: 0.9;
+    }
+    .start-title {
+      font-family: "Press Start 2P", "Space Grotesk", sans-serif;
+      font-size: 18px;
+      color: #9fe8b6;
+      margin: 0 0 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .start-sub {
+      font-size: 13px;
+      color: #c6f1d7;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .start-list {
+      text-align: left;
+      font-size: 12px;
+      color: #cfeedd;
+      margin: 0 0 14px;
+      padding: 0 0 0 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .start-list li { margin: 6px 0; }
+    .start-btn {
+      border: 1px solid #2e5a38;
+      background: linear-gradient(120deg, #62e890, #9fe8b6);
+      color: #03121b;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 10px 20px #62e89033;
+    }
+    .start-btn:hover {
+      transform: translateY(-1px);
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    @keyframes startFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes startPop {
+      0% { transform: translateY(10px) scale(0.98); opacity: 0; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .mobile-controls {
+      display: none;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 8px 4px;
+    }
+    .dpad {
+      display: grid;
+      grid-template-columns: 42px 42px 42px;
+      grid-template-rows: 42px 42px 42px;
+      gap: 6px;
+      touch-action: none;
+    }
+    .dpad .btn {
+      padding: 0;
+      font-size: 14px;
+    }
+    .action-buttons {
+      display: grid;
+      gap: 10px;
+      touch-action: none;
+    }
+    .action-buttons .btn {
+      min-width: 120px;
+    }
+    @media (max-width: 880px) {
+      body { padding: 16px 0 24px; }
+      .shell {
+        grid-template-columns: 1fr;
+        width: min(720px, 94vw);
+      }
+      .panel { order: 2; }
+      .canvas-wrap { order: 1; }
+      .legend { font-size: 12px; }
+      .title { font-size: 16px; }
+      .sub { font-size: 12px; }
+    }
+
+    @media (max-width: 520px) {
+      .page-title h1 { font-size: 18px; }
+      .panel { padding: 14px 12px; }
+      .hud { grid-template-columns: 1fr 1fr; }
+      .pill { padding: 8px 10px; }
+      .btn { padding: 9px 10px; font-size: 12px; }
+      .legend { padding: 8px 10px; }
+      .footer-note { font-size: 11px; }
+      .mobile-controls { display: flex; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-title">
+    <div class="glow"></div>
+    <h1>YARA Y SUS GATITOS</h1>
+  </div>
+  <div class="shell">
+    <aside class="panel">
+      <div class="panel-top">
+        <div class="title">Modo Gatitos</div>
+        <div class="sub">Acaricia a Gaara y Tilin para subir el ánimo y sumar ronroneos.</div>
+      </div>
+      <div class="hud">
+        <div class="pill stat">
+          <div><span>Ronroneos</span> <strong id="purr">0</strong></div>
+          <div class="bar"><span id="bar-purr"></span></div>
+        </div>
+        <div class="pill stat">
+          <div><span>Estado</span> <strong id="mood">Tranquilo</strong></div>
+          <div class="bar"><span id="bar-mood"></span></div>
+        </div>
+        <div class="pill stat">
+          <div><span>Cats</span> <strong id="cats">2</strong></div>
+          <div class="bar"><span id="bar-cats"></span></div>
+        </div>
+      </div>
+      <div class="cta">Zona de cariño activa</div>
+      <div class="cat-bars">
+        <div class="cat-bar">
+          <div>Gaara <strong id="hp-gaara">100</strong>%</div>
+          <div class="bar"><span id="bar-gaara"></span></div>
+        </div>
+        <div class="cat-bar">
+          <div>Tilin <strong id="hp-tilin">100</strong>%</div>
+          <div class="bar"><span id="bar-tilin"></span></div>
+        </div>
+      </div>
+      <div class="btns">
+        <button class="btn primary" id="btn-feed">Alimentar</button>
+        <button class="btn" id="btn-center">Centrar persona</button>
+        <button class="btn" id="btn-reset">Reiniciar gatos</button>
+      </div>
+      <div class="legend">
+        <div><kbd>WASD</kbd> o <kbd>Flechas</kbd> para mover</div>
+        <div><kbd>Espacio</kbd> para acariciar</div>
+        <div><kbd>F</kbd> para levantar y alimentar</div>
+        <div><kbd>R</kbd> reiniciar gatos</div>
+      </div>
+    </aside>
+    <section class="canvas-wrap">
+      <canvas id="game" width="1100" height="640"></canvas>
+      <div class="start-screen" id="start-screen">
+        <div class="start-card">
+          <div class="start-title">INICIAR JUEGO</div>
+          <div class="start-sub">Acaricia y alimenta a Gaara y Tilin.</div>
+          <button class="start-btn" id="start-btn">Jugar</button>
+        </div>
+      </div>
+      <div class="mobile-controls" aria-label="Controles moviles">
+        <div class="dpad">
+          <button class="btn" data-key=""></button>
+          <button class="btn" data-key="arrowup">↑</button>
+          <button class="btn" data-key=""></button>
+          <button class="btn" data-key="arrowleft">←</button>
+          <button class="btn" data-key=""></button>
+          <button class="btn" data-key="arrowright">→</button>
+          <button class="btn" data-key=""></button>
+          <button class="btn" data-key="arrowdown">↓</button>
+          <button class="btn" data-key=""></button>
+        </div>
+        <div class="action-buttons">
+          <button class="btn" data-key=" " aria-label="Acariciar">Acariciar</button>
+          <button class="btn" data-key="f" aria-label="Alimentar">Alimentar</button>
+        </div>
+      </div>
+      <div class="footer-note">
+        <span>Acércate y mantén espacio</span>
+        <span class="badge">modo acogedor</span>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+    const purrEl = document.getElementById("purr");
+    const moodEl = document.getElementById("mood");
+    const catsEl = document.getElementById("cats");
+    const btnReset = document.getElementById("btn-reset");
+    const btnCenter = document.getElementById("btn-center");
+    const btnFeed = document.getElementById("btn-feed");
+    const barPurr = document.getElementById("bar-purr");
+    const barMood = document.getElementById("bar-mood");
+    const barCats = document.getElementById("bar-cats");
+    const barGaara = document.getElementById("bar-gaara");
+    const barTilin = document.getElementById("bar-tilin");
+    const hpGaara = document.getElementById("hp-gaara");
+    const hpTilin = document.getElementById("hp-tilin");
+    const startScreen = document.getElementById("start-screen");
+    const startBtn = document.getElementById("start-btn");
+    const touchButtons = document.querySelectorAll(".mobile-controls .btn[data-key]");
+
+    const world = { w: canvas.width, h: canvas.height };
+
+    const keys = new Set();
+    window.addEventListener("keydown", (e) => {
+      const k = e.key.toLowerCase();
+      if (!gameStarted && (k === "enter" || k === " ")) {
+        e.preventDefault();
+        startGame();
+        return;
+      }
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+      if (!gameStarted) return;
+      keys.add(k);
+      if (["arrowup","arrowdown","arrowleft","arrowright"," "].includes(k)) e.preventDefault();
+      if (k === "r") resetCats();
+      if (k === "f") {
+        if (player.carrying) player.feedTimer = 14;
+        else tryPickupBowl();
+      }
+    });
+    window.addEventListener("keyup", (e) => keys.delete(e.key.toLowerCase()));
+
+    for (const btn of touchButtons) {
+      const key = btn.dataset.key;
+      if (!key) continue;
+      const down = (e) => {
+        e.preventDefault();
+        if (!gameStarted) startGame();
+        keys.add(key);
+        if (key === "f") {
+          if (player.carrying) player.feedTimer = 14;
+          else tryPickupBowl();
+        }
+      };
+      const up = (e) => {
+        e.preventDefault();
+        keys.delete(key);
+      };
+      btn.addEventListener("touchstart", down, { passive: false });
+      btn.addEventListener("touchend", up, { passive: false });
+      btn.addEventListener("touchcancel", up, { passive: false });
+      btn.addEventListener("mousedown", down);
+      btn.addEventListener("mouseup", up);
+      btn.addEventListener("mouseleave", up);
+    }
+
+    const player = {
+      x: world.w * 0.5,
+      y: world.h * 0.6,
+      r: 18,
+      speed: 2.6,
+      petting: false,
+      petTimer: 0,
+      feeding: false,
+      feedTimer: 0,
+      carrying: false
+    };
+
+    const bed = { x: 90, y: 170, w: 380, h: 210 };
+    const bowls = [
+      { x: 360, y: 420, taken: false },
+      { x: 420, y: 420, taken: false }
+    ];
+    const cats = [
+      { x: 190, y: 270, r: 16, color: "#f28c28", name: "Gaara", purrs: 0, mood: 0, angry: 0, health: 100, vx: 1.2, vy: -0.8, turnTimer: 0 },
+      { x: 340, y: 290, r: 16, color: "#f7f7f7", name: "Tilin", purrs: 0, mood: 0, spots: "#111111", angry: 0, health: 100, vx: -1.1, vy: 1.0, turnTimer: 0 }
+    ];
+
+    let totalPurrs = 0;
+    let gameOver = false;
+    let scratchTimer = 0;
+    let shakeTimer = 0;
+    let audioCtx = null;
+    let gameStarted = false;
+    let bgm = null;
+    const hearts = [];
+    const foods = [];
+
+    function startGame() {
+      gameStarted = true;
+      startScreen.hidden = true;
+      startScreen.style.display = "none";
+      document.body.style.overflow = "auto";
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+      startBgm();
+    }
+
+    startBtn.addEventListener("click", startGame);
+    startBtn.addEventListener("mouseenter", () => playHoverSound());
+    startBtn.addEventListener("touchstart", () => playHoverSound(), { passive: true });
+
+    function startBgm() {
+      if (!audioCtx || bgm) return;
+      const gain = audioCtx.createGain();
+      gain.gain.value = 0.04;
+      gain.connect(audioCtx.destination);
+
+      const osc1 = audioCtx.createOscillator();
+      osc1.type = "sine";
+      osc1.frequency.value = 220;
+      osc1.connect(gain);
+
+      const osc2 = audioCtx.createOscillator();
+      osc2.type = "triangle";
+      osc2.frequency.value = 330;
+      osc2.connect(gain);
+
+      osc1.start();
+      osc2.start();
+
+      let step = 0;
+      const notes = [220, 247, 196, 262, 220, 196, 175, 196];
+      const timer = setInterval(() => {
+        const n = notes[step % notes.length];
+        osc1.frequency.setValueAtTime(n, audioCtx.currentTime);
+        osc2.frequency.setValueAtTime(n * 1.5, audioCtx.currentTime);
+        step += 1;
+      }, 600);
+
+      bgm = { osc1, osc2, gain, timer };
+    }
+
+    function resetCats() {
+      cats[0].x = 190; cats[0].y = 270; cats[0].purrs = 0; cats[0].mood = 0; cats[0].angry = 0; cats[0].health = 100; cats[0].vx = 1.2; cats[0].vy = -0.8; cats[0].turnTimer = 0;
+      cats[1].x = 340; cats[1].y = 290; cats[1].purrs = 0; cats[1].mood = 0; cats[1].angry = 0; cats[1].health = 100; cats[1].vx = -1.1; cats[1].vy = 1.0; cats[1].turnTimer = 0;
+      bowls[0].taken = false; bowls[1].taken = false;
+      player.carrying = false;
+      player.feedTimer = 0;
+      scratchTimer = 0;
+      shakeTimer = 0;
+      gameOver = false;
+      totalPurrs = 0;
+      updateHud();
+    }
+
+    btnReset.addEventListener("click", resetCats);
+    btnCenter.addEventListener("click", () => {
+      player.x = bed.x + bed.w + 120;
+      player.y = bed.y + bed.h - 40;
+    });
+    btnFeed.addEventListener("click", () => {
+      if (player.carrying) player.feedTimer = 14;
+      else tryPickupBowl();
+    });
+
+    function tryPickupBowl() {
+      for (const bowl of bowls) {
+        if (bowl.taken) continue;
+        if (Math.hypot(player.x - bowl.x, player.y - bowl.y) < 28) {
+          bowl.taken = true;
+          player.carrying = true;
+          playPickupSound();
+          return;
+        }
+      }
+    }
+
+    function updateHud() {
+      purrEl.textContent = `${totalPurrs}`;
+      const avg = (cats[0].mood + cats[1].mood) / 2;
+      let label = "Tranquilo";
+      if (avg > 5) label = "Feliz";
+      if (avg > 12) label = "Encantado";
+      moodEl.textContent = `${label}`;
+      catsEl.textContent = `${cats.length}`;
+      barPurr.style.width = `${Math.min(100, totalPurrs * 5)}%`;
+      barMood.style.width = `${Math.min(100, (avg / 16) * 100)}%`;
+      barCats.style.width = `${(cats.length / 2) * 100}%`;
+      barMood.parentElement.classList.toggle("bad", avg < 3);
+      const g = cats[0].health;
+      const t = cats[1].health;
+      hpGaara.textContent = `${Math.round(g)}`;
+      hpTilin.textContent = `${Math.round(t)}`;
+      barGaara.style.width = `${g}%`;
+      barTilin.style.width = `${t}%`;
+      barGaara.parentElement.classList.toggle("bad", g < 35);
+      barTilin.parentElement.classList.toggle("bad", t < 35);
+    }
+
+    function dist(a, b) {
+      return Math.hypot(a.x - b.x, a.y - b.y);
+    }
+
+    function movePlayer() {
+      let dx = 0, dy = 0;
+      if (keys.has("w") || keys.has("arrowup")) dy -= 1;
+      if (keys.has("s") || keys.has("arrowdown")) dy += 1;
+      if (keys.has("a") || keys.has("arrowleft")) dx -= 1;
+      if (keys.has("d") || keys.has("arrowright")) dx += 1;
+
+      if (dx || dy) {
+        const len = Math.hypot(dx, dy);
+        dx /= len; dy /= len;
+        player.x += dx * player.speed;
+        player.y += dy * player.speed;
+      }
+
+      player.x = Math.max(player.r, Math.min(world.w - player.r, player.x));
+      player.y = Math.max(player.r, Math.min(world.h - player.r, player.y));
+
+      player.petting = keys.has(" ");
+      if (player.petting) player.petTimer = Math.min(20, player.petTimer + 1);
+      else player.petTimer = Math.max(0, player.petTimer - 2);
+
+      player.feeding = (keys.has("f") || player.feedTimer > 0) && player.carrying;
+      if (player.feedTimer > 0) player.feedTimer -= 1;
+    }
+
+    function updateCats() {
+      for (const cat of cats) {
+        // small wandering
+        if (cat.turnTimer <= 0) {
+          const ang = Math.random() * Math.PI * 2;
+          cat.vx = Math.cos(ang) * (1.2 + Math.random() * 0.8);
+          cat.vy = Math.sin(ang) * (1.2 + Math.random() * 0.8);
+          cat.turnTimer = 30 + Math.random() * 50;
+        }
+        cat.turnTimer -= 1;
+        cat.x += cat.vx;
+        cat.y += cat.vy;
+        const minX = bed.x + cat.r;
+        const maxX = bed.x + bed.w - cat.r;
+        const minY = bed.y + cat.r;
+        const maxY = bed.y + bed.h - cat.r;
+        if (cat.x <= minX || cat.x >= maxX) cat.vx *= -1;
+        if (cat.y <= minY || cat.y >= maxY) cat.vy *= -1;
+        cat.x = Math.max(minX, Math.min(maxX, cat.x));
+        cat.y = Math.max(minY, Math.min(maxY, cat.y));
+
+        const near = dist(player, cat) < player.r + cat.r + 14;
+        cat.health = Math.max(0, cat.health - 0.02);
+        if (near && player.petting) {
+          cat.mood += 0.06;
+          cat.angry = Math.max(0, cat.angry - 0.15);
+          if (Math.random() < 0.05) playPurrSound();
+          if (Math.random() < 0.25) {
+            hearts.push({
+              x: cat.x + (Math.random() * 16 - 8),
+              y: cat.y - 16,
+              vy: 0.6 + Math.random() * 0.5,
+              life: 60,
+              size: 6 + Math.random() * 4
+            });
+          }
+          if (Math.random() < 0.04) {
+            cat.purrs += 1;
+            totalPurrs += 1;
+            updateHud();
+          }
+        } else {
+          cat.mood = Math.max(0, cat.mood - 0.02);
+          if (near && !player.petting) cat.angry = Math.min(12, cat.angry + 0.25);
+          else cat.angry = Math.max(0, cat.angry - 0.05);
+        }
+
+        if (near && player.feeding) {
+          cat.health = Math.min(100, cat.health + 0.5);
+          if (Math.random() < 0.08) playFeedSound();
+          if (Math.random() < 0.25) {
+            foods.push({
+              x: cat.x + (Math.random() * 16 - 8),
+              y: cat.y + 6,
+              vy: 0.4 + Math.random() * 0.4,
+              life: 40
+            });
+          }
+        }
+
+        if (cat.health < 25) cat.angry = Math.min(12, cat.angry + 0.05);
+
+        if (near && !player.feeding && cat.health < 25) {
+          if (Math.random() < 0.05) {
+            scratchTimer = 22;
+            shakeTimer = 12;
+            playScratchSound();
+          }
+        }
+      }
+      if (cats.some(c => c.health <= 0)) gameOver = true;
+    }
+
+    function drawBackground() {
+      // simple background
+      ctx.fillStyle = "#f7efe3";
+      ctx.fillRect(0, 0, world.w, world.h);
+
+      // bed shadow
+      ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+      ctx.beginPath();
+      ctx.roundRect(78, 160, 420, 260, 26);
+      ctx.fill();
+
+      // bed base (single)
+      ctx.fillStyle = "#c7b7a6";
+      ctx.fillRect(70, 150, 420, 260);
+      ctx.strokeStyle = "#b39b86";
+      ctx.lineWidth = 6;
+      ctx.strokeRect(70, 150, 420, 260);
+
+      // mattress
+      ctx.fillStyle = "#f6f1e8";
+      ctx.fillRect(90, 175, 380, 210);
+      ctx.strokeStyle = "#e7dccf";
+      ctx.lineWidth = 3;
+      ctx.strokeRect(90, 175, 380, 210);
+
+      // blanket
+      ctx.fillStyle = "#e7c5d1";
+      ctx.fillRect(100, 265, 360, 110);
+      ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
+      for (let i = 0; i < 6; i++) {
+        ctx.fillRect(110 + i * 60, 265, 6, 110);
+      }
+
+      // pillow centered
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.roundRect(210, 190, 140, 60, 18);
+      ctx.fill();
+      ctx.strokeStyle = "#efe6dc";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    function drawBowls() {
+      for (const bowl of bowls) {
+        if (bowl.taken) continue;
+        ctx.fillStyle = "#d45d4c";
+        ctx.beginPath();
+        ctx.ellipse(bowl.x, bowl.y, 26, 10, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#b34a3b";
+        ctx.beginPath();
+        ctx.ellipse(bowl.x, bowl.y - 4, 20, 7, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function drawPlayer() {
+      // shadow
+      ctx.fillStyle = "rgba(0,0,0,0.18)";
+      ctx.beginPath();
+      ctx.ellipse(player.x, player.y + 26, 18, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // jeans
+      ctx.fillStyle = "#3d5a98";
+      ctx.beginPath();
+      ctx.roundRect(player.x - 10, player.y + 8, 8, 22, 4);
+      ctx.roundRect(player.x + 2, player.y + 8, 8, 22, 4);
+      ctx.fill();
+      ctx.fillStyle = "#2f477a";
+      ctx.beginPath();
+      ctx.roundRect(player.x - 10, player.y + 6, 20, 6, 4);
+      ctx.fill();
+
+      // shoes
+      ctx.fillStyle = "#2a2d44";
+      ctx.beginPath();
+      ctx.roundRect(player.x - 12, player.y + 28, 10, 5, 3);
+      ctx.roundRect(player.x + 4, player.y + 28, 10, 5, 3);
+      ctx.fill();
+
+      // loose blouse
+      ctx.fillStyle = "#7ed957";
+      ctx.beginPath();
+      ctx.ellipse(player.x, player.y + 6, 16, 14, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#5fbf3a";
+      ctx.beginPath();
+      ctx.roundRect(player.x - 14, player.y - 2, 28, 24, 9);
+      ctx.fill();
+
+      // arms (animate forward on actions)
+      const actionLift = Math.max(player.petTimer * 0.4, player.feedTimer * 0.4);
+      const actionForward = Math.min(8, actionLift * 0.6);
+      ctx.fillStyle = "#6cbf4a";
+      ctx.beginPath();
+      ctx.roundRect(player.x - 24 + actionForward, player.y + 2 - actionLift, 10, 18, 6);
+      ctx.roundRect(player.x + 14 + actionForward, player.y + 2 - actionLift, 10, 18, 6);
+      ctx.fill();
+      ctx.fillStyle = "#f0c7a4";
+      ctx.beginPath();
+      ctx.roundRect(player.x - 24 + actionForward, player.y + 18 - actionLift, 10, 6, 4);
+      ctx.roundRect(player.x + 14 + actionForward, player.y + 18 - actionLift, 10, 6, 4);
+      ctx.fill();
+
+      // neckline
+      ctx.fillStyle = "#f0c7a4";
+      ctx.beginPath();
+      ctx.ellipse(player.x, player.y - 1, 6, 4, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // curly black hair (richer volume)
+      ctx.fillStyle = "#16161b";
+      ctx.beginPath();
+      ctx.arc(player.x, player.y - 18, 16, Math.PI, Math.PI * 2);
+      ctx.fill();
+
+      // curly hair texture
+      for (let i = -4; i <= 4; i++) {
+        ctx.beginPath();
+        ctx.arc(player.x + i * 4.2, player.y - 5, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      for (let i = -4; i <= 4; i++) {
+        ctx.beginPath();
+        ctx.arc(player.x + i * 4.2, player.y - 3, 3.8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // head (drawn on top so face is visible)
+      ctx.fillStyle = "#f0c7a4";
+      ctx.beginPath();
+      ctx.arc(player.x, player.y - 12, 12, 0, Math.PI * 2);
+      ctx.fill();
+
+      // face (happy)
+      ctx.fillStyle = "#2b2b2b";
+      ctx.beginPath();
+      ctx.arc(player.x - 4, player.y - 14, 1.5, 0, Math.PI * 2);
+      ctx.arc(player.x + 4, player.y - 14, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#2b2b2b";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(player.x, player.y - 8, 4, 0, Math.PI);
+      ctx.stroke();
+
+      // hand
+      ctx.strokeStyle = "#1b1b1f";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(player.x + 8, player.y);
+      const handRaise = player.petTimer * 0.5;
+      ctx.lineTo(player.x + 24, player.y - 6 - handRaise);
+      ctx.stroke();
+
+      if (player.carrying) {
+        ctx.fillStyle = "#d45d4c";
+        ctx.beginPath();
+        ctx.ellipse(player.x - 16, player.y + 6, 10, 4, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#b34a3b";
+        ctx.beginPath();
+        ctx.ellipse(player.x - 16, player.y + 4, 7, 3, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function drawCat(cat) {
+      const d = dist(player, cat);
+      const t = Math.max(0, Math.min(1, (180 - d) / 180));
+      const scale = 1 + t * 0.9; // bigger when close
+
+      ctx.save();
+      ctx.translate(cat.x, cat.y);
+      ctx.scale(scale, scale);
+
+      // shadow
+      ctx.fillStyle = "rgba(0,0,0,0.18)";
+      ctx.beginPath();
+      ctx.ellipse(0, 26, cat.r + 10, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // body
+      ctx.fillStyle = cat.color;
+      ctx.beginPath();
+      ctx.ellipse(0, 10, cat.r + 8, cat.r + 4, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // tail
+      ctx.strokeStyle = cat.color;
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(cat.r + 6, 12);
+      ctx.quadraticCurveTo(cat.r + 22, 6, cat.r + 28, 18);
+      ctx.stroke();
+
+      // legs
+      ctx.fillStyle = cat.color;
+      ctx.beginPath();
+      ctx.roundRect(-14, 20, 8, 10, 3);
+      ctx.roundRect(-2, 20, 8, 10, 3);
+      ctx.roundRect(10, 20, 8, 10, 3);
+      ctx.fill();
+
+      // head
+      ctx.fillStyle = cat.color;
+      ctx.beginPath();
+      ctx.arc(0, 0, cat.r, 0, Math.PI * 2);
+      ctx.fill();
+
+      // cheeks
+      ctx.fillStyle = "rgba(255,255,255,0.4)";
+      ctx.beginPath();
+      ctx.arc(-8, 4, 4, 0, Math.PI * 2);
+      ctx.arc(8, 4, 4, 0, Math.PI * 2);
+      ctx.fill();
+      // ears
+      ctx.beginPath();
+      ctx.moveTo(-10, -8);
+      ctx.lineTo(-18, -20);
+      ctx.lineTo(-2, -16);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(10, -8);
+      ctx.lineTo(18, -20);
+      ctx.lineTo(2, -16);
+      ctx.fill();
+
+      // face
+      ctx.fillStyle = "#fff";
+      ctx.beginPath();
+      ctx.arc(-5, -2, 2, 0, Math.PI * 2);
+      ctx.arc(5, -2, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (cat.spots) {
+        ctx.fillStyle = cat.spots;
+        ctx.beginPath();
+        ctx.ellipse(-6, 4, 5, 4, -0.4, 0, Math.PI * 2);
+        ctx.ellipse(6, 6, 6, 4, 0.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // whiskers
+      ctx.strokeStyle = "#444";
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(-6, 2); ctx.lineTo(-18, 0);
+      ctx.moveTo(-6, 5); ctx.lineTo(-18, 6);
+      ctx.moveTo(6, 2); ctx.lineTo(18, 0);
+      ctx.moveTo(6, 5); ctx.lineTo(18, 6);
+      ctx.stroke();
+
+      // angry eyebrows when not petted nearby
+      if (cat.angry > 3) {
+        ctx.strokeStyle = "#a4161a";
+        ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        ctx.moveTo(-10, -8); ctx.lineTo(-2, -4);
+        ctx.moveTo(10, -8); ctx.lineTo(2, -4);
+        ctx.stroke();
+      }
+
+      // health bar
+      ctx.fillStyle = "rgba(0,0,0,0.25)";
+      ctx.fillRect(-18, -24, 36, 6);
+      ctx.fillStyle = cat.health > 30 ? "#7dd181" : "#f25f5c";
+      ctx.fillRect(-18, -24, 36 * (cat.health / 100), 6);
+
+      // mood ring
+      const glow = Math.min(0.9, cat.mood / 14);
+      if (glow > 0.05) {
+        ctx.strokeStyle = `rgba(129, 178, 154, ${glow})`;
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.arc(0, 0, cat.r + 8, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+
+      // name
+      ctx.fillStyle = "#333";
+      ctx.font = "12px Space Grotesk";
+      ctx.fillText(`${cat.name} (${cat.purrs})`, cat.x - 20, cat.y + 28);
+    }
+
+    function updateHearts() {
+      for (let i = hearts.length - 1; i >= 0; i--) {
+        const h = hearts[i];
+        h.y -= h.vy;
+        h.life -= 1;
+        if (h.life <= 0) hearts.splice(i, 1);
+      }
+    }
+
+    function updateFoods() {
+      for (let i = foods.length - 1; i >= 0; i--) {
+        const f = foods[i];
+        f.y += f.vy;
+        f.life -= 1;
+        if (f.life <= 0) foods.splice(i, 1);
+      }
+    }
+
+    function drawHearts() {
+      ctx.fillStyle = "rgba(255, 122, 107, 0.9)";
+      for (const h of hearts) {
+        ctx.beginPath();
+        const s = h.size;
+        ctx.moveTo(h.x, h.y);
+        ctx.bezierCurveTo(h.x - s, h.y - s, h.x - s * 1.4, h.y + s * 0.2, h.x, h.y + s);
+        ctx.bezierCurveTo(h.x + s * 1.4, h.y + s * 0.2, h.x + s, h.y - s, h.x, h.y);
+        ctx.fill();
+      }
+    }
+
+    function drawFoods() {
+      ctx.fillStyle = "#8d6b4e";
+      for (const f of foods) {
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function drawGameOver() {
+      ctx.fillStyle = "rgba(10, 12, 18, 0.72)";
+      ctx.fillRect(0, 0, world.w, world.h);
+
+      const cardW = 420;
+      const cardH = 220;
+      const cx = world.w / 2 - cardW / 2;
+      const cy = world.h / 2 - cardH / 2;
+
+      ctx.fillStyle = "rgba(255,255,255,0.92)";
+      ctx.beginPath();
+      ctx.roundRect(cx, cy, cardW, cardH, 18);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(0,0,0,0.08)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = "#12131a";
+      ctx.font = "700 42px Space Grotesk";
+      ctx.fillText("YOU LOSE", cx + 95, cy + 80);
+
+      ctx.fillStyle = "#5a5a66";
+      ctx.font = "16px Space Grotesk";
+      ctx.fillText("Gaara o Tilin se quedaron sin energia.", cx + 60, cy + 112);
+
+      // button
+      ctx.fillStyle = "#11131b";
+      ctx.beginPath();
+      ctx.roundRect(cx + 120, cy + 140, 180, 44, 12);
+      ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "600 15px Space Grotesk";
+      ctx.fillText("Reintentar (R)", cx + 154, cy + 168);
+    }
+
+    function drawScratch() {
+      if (scratchTimer <= 0) return;
+      scratchTimer -= 1;
+      ctx.fillStyle = "rgba(160, 0, 20, 0.18)";
+      ctx.fillRect(0, 0, world.w, world.h);
+      ctx.strokeStyle = "rgba(200, 20, 40, 0.9)";
+      ctx.lineWidth = 4;
+      for (let i = 0; i < 3; i++) {
+        const x = 480 + i * 36;
+        const y = 80 + i * 18;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + 70, y + 180);
+        ctx.stroke();
+      }
+    }
+
+    function playScratchSound() {
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(520, now);
+      osc.frequency.exponentialRampToValueAtTime(120, now + 0.12);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.25, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.16);
+    }
+
+    function playPickupSound() {
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "square";
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(660, now + 0.08);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.18, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.13);
+    }
+
+    function playPurrSound() {
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      const dur = 0.6;
+
+      const osc = audioCtx.createOscillator();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(55, now);
+
+      const lfo = audioCtx.createOscillator();
+      lfo.type = "sine";
+      lfo.frequency.setValueAtTime(6, now);
+
+      const lfoGain = audioCtx.createGain();
+      lfoGain.gain.setValueAtTime(0.12, now);
+      lfo.connect(lfoGain);
+
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.12, now + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+      lfoGain.connect(gain.gain);
+      osc.connect(gain).connect(audioCtx.destination);
+
+      // soft noise layer
+      const bufferSize = audioCtx.sampleRate * dur;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.2;
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = buffer;
+
+      const lp = audioCtx.createBiquadFilter();
+      lp.type = "lowpass";
+      lp.frequency.setValueAtTime(180, now);
+
+      const nGain = audioCtx.createGain();
+      nGain.gain.setValueAtTime(0.0001, now);
+      nGain.gain.exponentialRampToValueAtTime(0.06, now + 0.05);
+      nGain.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+
+      noise.connect(lp).connect(nGain).connect(audioCtx.destination);
+
+      osc.start(now);
+      lfo.start(now);
+      noise.start(now);
+      osc.stop(now + dur);
+      lfo.stop(now + dur);
+      noise.stop(now + dur);
+    }
+
+    function playFeedSound() {
+      if (!audioCtx) return;
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "square";
+      osc.frequency.setValueAtTime(300, now);
+      osc.frequency.exponentialRampToValueAtTime(180, now + 0.12);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.12, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.18);
+    }
+
+    function playHoverSound() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(520, now);
+      osc.frequency.exponentialRampToValueAtTime(740, now + 0.08);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.08, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.12);
+    }
+
+    function loop() {
+      if (!gameStarted) {
+        drawBackground();
+        drawBowls();
+        drawPlayer();
+        cats.forEach(drawCat);
+        requestAnimationFrame(loop);
+        return;
+      }
+      if (!gameOver) {
+        movePlayer();
+        updateCats();
+        updateHearts();
+        updateFoods();
+        updateHud();
+      }
+
+      const zoom = 1.9;
+      ctx.save();
+      if (shakeTimer > 0) {
+        const s = shakeTimer * 0.6;
+        ctx.translate((Math.random() - 0.5) * s, (Math.random() - 0.5) * s);
+        shakeTimer -= 1;
+      }
+      ctx.translate(world.w / 2, world.h / 2);
+      ctx.scale(zoom, zoom);
+      ctx.translate(-player.x, -player.y);
+      drawBackground();
+      drawBowls();
+      drawPlayer();
+      cats.forEach(drawCat);
+      drawHearts();
+      drawFoods();
+      ctx.restore();
+      drawScratch();
+      if (gameOver) drawGameOver();
+
+      // petting hint
+      const nearCat = cats.find(c => dist(player, c) < player.r + c.r + 16);
+      if (nearCat) {
+        ctx.fillStyle = "#2b2b2b";
+        ctx.font = "14px Space Grotesk";
+        ctx.fillText("Presiona ESPACIO para acariciar", 24, 32);
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    updateHud();
+    loop();
+  </script>
+</body>
+</html>
